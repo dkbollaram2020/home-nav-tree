@@ -1,0 +1,45 @@
+
+<div *ngIf="displayOnView">
+  <table align="right">
+    <thead>
+      <tr>
+        <td>Node Level</td>
+        <td>Node Name</td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of displayOnView| keyvalue">
+        <td>{{ item.key }}</td>
+        <td>{{ item.value }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+  <!-- This is the tree node template for leaf nodes -->
+  <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+    <!-- use a disabled button to provide padding for tree leaf -->
+
+    <button mat-button (click)="expandParents(node)">
+      {{node.name}}
+    </button>
+
+  </mat-tree-node>
+  <!-- This is the tree node template for expandable nodes -->
+  <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
+    <button mat-button (click)="expandParents(node)" matTreeNodeToggle>
+      {{node.name}}
+    </button>
+  </mat-tree-node>
+</mat-tree>
+
+<!-- 
+<span>
+  {{displayOnView | json }}
+</span> -->
+
+
+<!-- Copyright 2019 Google Inc. All Rights Reserved.
+    Use of this source code is governed by an MIT-style license that
+    can be found in the LICENSE file at http://angular.io/license -->

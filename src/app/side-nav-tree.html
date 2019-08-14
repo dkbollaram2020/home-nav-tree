@@ -1,0 +1,81 @@
+<ng-container *ngIf="shouldRun">
+  <mat-toolbar class="example-header">
+    <h2>Incentives Management - Tactic Creator</h2>
+  </mat-toolbar>
+
+  <mat-sidenav-container class="example-container">
+    <mat-sidenav #sidenav mode="side" opened class="example-sidenav" [fixedInViewport]="options.value.fixed"
+      [fixedTopGap]="options.value.top" [fixedBottomGap]="options.value.bottom">
+      <tree-flat-overview-example>loading</tree-flat-overview-example>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+
+      <nav class='navbar navbar-expand navbar-light bg-light'>
+        <ul class='navbar-nav'>
+          <li class='nav-item'><button class='nav-link' (click)="rightSideNav = 'geography'">Geography - By
+              National/BC/States</button></li>
+          <li class='nav-item'><button class='nav-link' (click)="rightSideNav = 'byBCDMA'">By BC/DMA</button></li>
+          <li class='nav-item'><button class='nav-link' (click)="rightSideNav = 'byDealerZip'">By Dealer Zip/Customer
+              Zip</button>
+          </li>
+        </ul>
+      </nav>
+
+      {{rightSideNav}}
+
+      <div [ngSwitch]="rightSideNav">
+        <ng-container *ngSwitchCase="'geography'"></ng-container>
+
+        <ng-container *ngSwitchCase="'byBCDMA'">
+
+          <mat-grid-list cols="4" rowHeight="300px">
+            <mat-grid-tile [colspan]=1 [rowspan]=2 [style.background]="lightpink">
+              <ul>
+                <li><a (click)="byBCDMAGrid = 'midwest'">MIDWEST</a></li>
+                <li><a (click)="byBCDMAGrid = 'west'">WEST</a></li>
+                <li><a (click)="byBCDMAGrid = 'denver'">DENVER</a></li>
+              </ul>
+
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]=3 [rowspan]=2 [style.background]="lightgreen">
+              {{byBCDMAGrid}} <br>
+
+              On Item Select: {{item | json}}<br>
+              On Select All: {{items | json}}<br>
+
+              <ng-multiselect-dropdown [placeholder]="'multi select dropdown'" [data]="dropdownList"
+                [(ngModel)]="selectedItems" [settings]="dropdownSettings" (onSelect)="onItemSelect($event)"
+                (onDeSelect)="onItemDeSelect($event)" (onSelectAll)="onSelectAll($event)">
+              </ng-multiselect-dropdown>
+
+            </mat-grid-tile>
+          </mat-grid-list>
+
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'byDealerZip'">
+          <div class="card-body">
+            <label class="col-md-2 col-form-label" for="zipCode">Zip Code</label>
+            <div class="col-md-8">
+              <input class="form-control" id="zipCode" type="text" placeholder="" />
+            </div>
+          </div>
+        </ng-container>
+
+        <!-- default case when there are no matches -->
+        <ng-container *ngSwitchDefault></ng-container>
+      </div>
+
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+
+  <!--<mat-toolbar class="example-footer">Footer</mat-toolbar> -->
+</ng-container>
+
+
+
+<!-- Copyright 2019 Google Inc. All Rights Reserved.
+          Use of this source code is governed by an MIT-style license that
+          can be found in the LICENSE file at http://angular.io/license -->
